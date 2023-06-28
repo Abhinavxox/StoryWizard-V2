@@ -8,6 +8,8 @@ from api.models import Story
 from api.serializers import storySerializer
 from rest_framework.decorators import api_view
 
+from api.functions import generate_story
+
 @api_view(['GET', 'POST', 'DELETE'])    
 def story_list(request):
     if request.method == 'GET':
@@ -21,8 +23,8 @@ def story_list(request):
         return JsonResponse(stories_serializer.data, safe=False)
  
     elif request.method == 'POST':
-        story_data = JSONParser().parse(request)
-        story_serializer = storySerializer(data=story_data)
+        response_from_openai = generate_story(request.data['topic'])
+        story_serializer = storySerializer(data=response_from_openai)
         if story_serializer.is_valid():
             story_serializer.save()
             return JsonResponse(story_serializer.data, status=status.HTTP_201_CREATED) 
