@@ -18,7 +18,7 @@ HEADERS = {
 }
 
 #stable diffusion v1.5 model
-model_id = "8ead1e66-5722-4ff6-a13f-b5212f575321"
+model_id = "8b1b897c-d66d-45a6-b8d7-8e32421d02cf"
 
 #gpt3 api for story generation
 def generate_story(topic):
@@ -34,8 +34,8 @@ def generate_story(topic):
     title = title.replace('Title: ', '')
     res = content[content.find('\n'):]
     res = res.lstrip()
-    # prompt = generate_promt_for_stablediffusion(res)
-    image_url = generate_image(title)
+    prompt = generate_promt_for_stablediffusion(res)
+    image_url = generate_image(prompt)
     output = {'title': title, 'story': res, 'image': image_url}
     return output
 
