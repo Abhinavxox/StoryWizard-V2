@@ -23,6 +23,7 @@ const StoryLibrary = () => {
           {loading ? (
             <h1>Loading...</h1>
           ) : (
+            stories &&
             stories.map((story) => (
               <StoryCard
                 key={story.id}
