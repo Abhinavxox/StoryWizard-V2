@@ -3,12 +3,14 @@ import requests
 import json
 import os
 from rest_framework.parsers import JSONParser 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 #load of env variables
-load_dotenv()
-openai.api_key = os.getenv('OPENAI_API_KEY')
-leapai_api_key = os.getenv('LEAPAI_API_KEY')
+# load_dotenv()
+# openai.api_key = os.getenv('OPENAI_API_KEY')
+# leapai_api_key = os.getenv('LEAPAI_API_KEY')
+openai.api_key = os.environ.get('OPENAI_API_KEY')
+leapai_api_key = os.environ.get('LEAPAI_API_KEY')
 
 #headers for leapai api
 HEADERS = {
