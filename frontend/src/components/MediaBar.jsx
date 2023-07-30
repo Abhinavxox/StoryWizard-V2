@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaPlay, FaPause, FaQuestion } from "react-icons/fa";
 
 const MediaBar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -21,20 +22,32 @@ const MediaBar = () => {
         }`}
       >
         <button
-          className={`w-14 h-14 bg-white text-blue-500 rounded-full ${
+          className={`w-14 h-14 bg-base-300 text-white ${
             isHovered ? "rounded-full" : "rounded-none"
           }`}
-        ></button>
+        >
+          <div className="flex justify-center">
+            <FaPlay />
+          </div>
+        </button>
         <button
-          className={`w-14 h-14 bg-white text-blue-500 rounded-full ${
+          className={`w-14 h-14 bg-base-300 text-white ${
             isHovered ? "rounded-full" : "rounded-none"
           }`}
-        ></button>
+        >
+          <div className="flex justify-center">
+            <FaPause />
+          </div>
+        </button>
         <button
-          className={`w-14 h-14 bg-white text-blue-500 rounded-full ${
+          className={`w-14 h-14 bg-base-300 text-white ${
             isHovered ? "rounded-full" : "rounded-none"
           }`}
-        ></button>
+        >
+          <div className="flex justify-center">
+            <FaQuestion />
+          </div>
+        </button>
       </div>
     </div>
   );
