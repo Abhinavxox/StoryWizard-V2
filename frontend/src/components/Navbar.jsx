@@ -1,10 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">Story Wizard 🪄</a>
+        <Link to={"/"} className="btn btn-ghost normal-case text-xl">
+          Story Wizard 🪄
+        </Link>
       </div>
       <button className="btn btn-square btn-ghost">
         <svg

@@ -3,6 +3,7 @@ import StoryCard from "./StoryCard";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getStories } from "../actions/storyActions";
+import { Link } from "react-router-dom";
 
 const StoryLibrary = () => {
   const dispatch = useDispatch();
@@ -25,13 +26,15 @@ const StoryLibrary = () => {
           ) : (
             stories &&
             stories.map((story) => (
-              <StoryCard
-                key={story.id}
-                id={story.id}
-                heading={story.title}
-                content={story.story}
-                imgSrc={story.image}
-              />
+              <Link to={`/story/${story.title}`} key={story.id} state={story}>
+                {" "}
+                <StoryCard
+                  id={story.id}
+                  heading={story.title}
+                  content={story.story}
+                  imgSrc={story.image}
+                />
+              </Link>
             ))
           )}
         </div>
