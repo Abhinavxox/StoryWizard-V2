@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaPlay, FaPause, FaQuestion } from "react-icons/fa";
+import { FaPlay, FaPause, FaQuestion, FaTimes } from "react-icons/fa";
 
 const MediaBar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -21,33 +21,31 @@ const MediaBar = () => {
           isHovered ? "animate-expand-height" : "animate-shrink-height"
         }`}
       >
-        <button
-          className={`w-14 h-14 bg-base-300 text-white ${
-            isHovered ? "rounded-full" : "rounded-none"
-          }`}
-        >
-          <div className="flex justify-center">
-            <FaPlay />
-          </div>
-        </button>
-        <button
-          className={`w-14 h-14 bg-base-300 text-white ${
-            isHovered ? "rounded-full" : "rounded-none"
-          }`}
-        >
-          <div className="flex justify-center">
-            <FaPause />
-          </div>
-        </button>
-        <button
-          className={`w-14 h-14 bg-base-300 text-white ${
-            isHovered ? "rounded-full" : "rounded-none"
-          }`}
-        >
-          <div className="flex justify-center">
-            <FaQuestion />
-          </div>
-        </button>
+        {isHovered ? (
+          <>
+            <button className="w-14 h-14 bg-base-300 text-white rounded-full">
+              <div className="flex justify-center">
+                <FaPlay />
+              </div>
+            </button>
+            <button className="w-14 h-14 bg-base-300 text-white rounded-full">
+              <div className="flex justify-center">
+                <FaPause />
+              </div>
+            </button>
+            <button className="w-14 h-14 bg-base-300 text-white rounded-full">
+              <div className="flex justify-center">
+                <FaQuestion />
+              </div>
+            </button>
+          </>
+        ) : (
+          <button className="w-14 h-14 bg-base-300 text-white rounded-full">
+            <div className="flex justify-center">
+              <FaTimes />
+            </div>
+          </button>
+        )}
       </div>
     </div>
   );
