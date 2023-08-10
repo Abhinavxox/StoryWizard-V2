@@ -2,9 +2,9 @@ import {
   ALL_STORIES_REQUEST,
   ALL_STORIES_SUCCESS,
   ALL_STORIES_FAIL,
-  STORY_DETAILS_SUCCESS,
-  STORY_DETAILS_REQUEST,
-  STORY_DETAILS_FAIL,
+  STORY_GENERATE_REQUEST,
+  STORY_GENERATE_SUCCESS,
+  STORY_GENERATE_FAIL,
   CLEAR_ERRORS,
 } from "../constants/storyConstant";
 
@@ -32,6 +32,24 @@ export const storiesReducer = (state = { stories: [] }, action) => {
       return {
         ...state,
         error: null,
+      };
+
+    case STORY_GENERATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case STORY_GENERATE_SUCCESS:
+      return {
+        loading: false,
+        story: action.payload,
+      };
+
+    case STORY_GENERATE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
       };
 
     default:

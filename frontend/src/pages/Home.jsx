@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import StoryLibrary from "../components/StoryLibrary";
 
+import { useDispatch, useSelector } from "react-redux";
+import { generateStory } from "../actions/storyActions";
+
+import { options } from "../alert/Alert";
+import { toast } from "react-toastify";
+
 const Home = () => {
+  const dispatch = useDispatch();
+
+  const { loading, error, story } = useSelector((state) => state.stories);
+
+  const [topic, setTopic] = useState("");
+
+  const handleInputChange = (event) => {
+    setTopic(event.target.value);
+  };
+
+  const generate = () => {
+    if (topic === "") {
+      toast.error("Please enter a topic", options);
+      return;
+    }
+    const storyData = {
+      topic: topic,
+    };
+    dispatch(generateStory(storyData));
+  };
+
   return (
     <>
       <div className="mx-auto h-[90vh]">
@@ -14,10 +41,14 @@ const Home = () => {
               <input
                 type="text"
                 placeholder="Type here"
+                value={topic}
                 className="input input-bordered input-primary w-full h-40 text-xl my-5"
+                onChange={handleInputChange}
               />
               <div className="flex justify-center my-5">
-                <button className="btn btn-primary">Generate</button>
+                <button className="btn btn-primary" onClick={() => generate()}>
+                  Generate
+                </button>
               </div>
             </div>
           </div>
