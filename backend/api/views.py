@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import os
 
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
@@ -9,6 +10,9 @@ from api.serializers import storySerializer
 from rest_framework.decorators import api_view
 
 from api.functions import generate_story
+
+from gtts import gTTS
+from django.core.files.base import ContentFile
 
 @api_view(['GET', 'POST', 'DELETE'])    
 def story_list(request):
@@ -27,6 +31,20 @@ def story_list(request):
         story_serializer = storySerializer(data=response_from_openai)
         if story_serializer.is_valid():
             story_serializer.save()
+
+            #generate mp3 file
+            story = Story.objects.get(pk=story_serializer.data['id'])
+
+            tts = gTTS(text=story.story, lang='en')
+
+            audio_file_path = f'media/stories/audio/story_{story.id}.mp3'
+            
+            os.makedirs(os.path.dirname(audio_file_path), exist_ok=True)
+
+            tts.save(audio_file_path)
+
+            story.audio.name = audio_file_path
+            story.save()
             return JsonResponse(story_serializer.data, status=status.HTTP_201_CREATED) 
         return JsonResponse(story_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
