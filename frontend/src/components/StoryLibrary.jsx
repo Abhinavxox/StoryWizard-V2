@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStories } from "../actions/storyActions";
 import { Link } from "react-router-dom";
 
+import { options } from "../alert/Alert";
+import { toast } from "react-toastify";
+
 const StoryLibrary = () => {
   const dispatch = useDispatch();
 
@@ -12,7 +15,7 @@ const StoryLibrary = () => {
 
   useEffect(() => {
     if (error) {
-      console.log("error:", error);
+      toast.error(error, options);
     }
     dispatch(getStories());
   }, [dispatch, error]);

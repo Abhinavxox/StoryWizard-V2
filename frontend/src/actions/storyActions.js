@@ -3,9 +3,9 @@ import {
   ALL_STORIES_REQUEST,
   ALL_STORIES_SUCCESS,
   ALL_STORIES_FAIL,
-  STORY_DETAILS_SUCCESS,
-  STORY_DETAILS_REQUEST,
-  STORY_DETAILS_FAIL,
+  STORY_AUDIO_REQUEST,
+  STORY_AUDIO_SUCCESS,
+  STORY_AUDIO_FAIL,
   STORY_GENERATE_REQUEST,
   STORY_GENERATE_SUCCESS,
   STORY_GENERATE_FAIL,
@@ -46,6 +46,27 @@ export const generateStory = (storyData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: STORY_GENERATE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//get audio
+export const getAudio = (storyId) => async (dispatch) => {
+  try {
+    dispatch({ type: STORY_AUDIO_REQUEST });
+
+    const { data } = await axios.get(
+      BackendUrl + "/stories/" + storyId + "/audio"
+    );
+
+    dispatch({
+      type: STORY_AUDIO_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: STORY_AUDIO_FAIL,
       payload: error.response.data.message,
     });
   }

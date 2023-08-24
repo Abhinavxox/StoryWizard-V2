@@ -5,6 +5,9 @@ import {
   STORY_GENERATE_REQUEST,
   STORY_GENERATE_SUCCESS,
   STORY_GENERATE_FAIL,
+  STORY_AUDIO_REQUEST,
+  STORY_AUDIO_SUCCESS,
+  STORY_AUDIO_FAIL,
   CLEAR_ERRORS,
 } from "../constants/storyConstant";
 
@@ -47,6 +50,24 @@ export const storiesReducer = (state = { stories: [] }, action) => {
       };
 
     case STORY_GENERATE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case STORY_AUDIO_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case STORY_AUDIO_SUCCESS:
+      return {
+        loading: false,
+        audio: action.payload,
+      };
+
+    case STORY_AUDIO_FAIL:
       return {
         ...state,
         error: action.payload,
