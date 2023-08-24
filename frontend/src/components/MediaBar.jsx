@@ -1,11 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FaPlay, FaPause, FaQuestion, FaTimes } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 const MediaBar = () => {
+  const location = useLocation();
+  const story = location.state;
+
   const [isHovered, setIsHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const audioRef = useRef(null);
 
   const handleHover = () => {
     setIsHovered((prev) => !prev);
+  };
+
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying((prev) => !prev);
   };
 
   return (
@@ -23,14 +39,12 @@ const MediaBar = () => {
       >
         {isHovered ? (
           <>
-            <button className="w-14 h-14 bg-base-300 text-white rounded-full">
+            <button
+              className="w-14 h-14 bg-base-300 text-white rounded-full"
+              onClick={togglePlayPause}
+            >
               <div className="flex justify-center">
-                <FaPlay />
-              </div>
-            </button>
-            <button className="w-14 h-14 bg-base-300 text-white rounded-full">
-              <div className="flex justify-center">
-                <FaPause />
+                {isPlaying ? <FaPause /> : <FaPlay />}
               </div>
             </button>
             <button className="w-14 h-14 bg-base-300 text-white rounded-full">
@@ -47,6 +61,8 @@ const MediaBar = () => {
           </button>
         )}
       </div>
+
+      <audio ref={audioRef} src={``} />
     </div>
   );
 };

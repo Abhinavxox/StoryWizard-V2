@@ -14,6 +14,13 @@ from api.functions import generate_story
 from gtts import gTTS
 from django.core.files.base import ContentFile
 
+from django.http import FileResponse
+from django.conf import settings
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from .models import Story
+
+
 @api_view(['GET', 'POST', 'DELETE'])    
 def story_list(request):
     if request.method == 'GET':
@@ -83,3 +90,19 @@ def story_list_published(request):
     if request.method == 'GET': 
         stories_serializer = storySerializer(stories, many=True)
         return JsonResponse(stories_serializer.data, safe=False)
+    
+@api_view(['GET'])
+def story_audio(request, pk):
+    story = get_object_or_404(Story, pk=pk)
+
+    if request.method == 'GET':
+        # Construct the file path to the MP3 file
+        audio_file_path = os.path.join(settings.MEDIA_ROOT, f'stories/audio/story_{story.pk}.mp3')
+
+        # Check if the file exists
+        if os.path.exists(audio_file_path):
+            # Send the file as a response using FileResponse
+            response = FileResponse(open(audio_file_path, 'rb'), content_type='audio/mp3')
+            return response
+        else:
+            return JsonResponse({'message': 'Audio file not found'}, status=status.HTTP_404_NOT_FOUND)

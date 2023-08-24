@@ -32,7 +32,7 @@ const Story = (props) => {
       </section>
       <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
         <div className="flex justify-center w-full">
-          <MediaBar />
+          <MediaBar story={story} />
         </div>
       </div>
     </div>
