@@ -10,6 +10,9 @@ import {
   STORY_GENERATE_SUCCESS,
   STORY_GENERATE_FAIL,
   CLEAR_ERRORS,
+  FOLLOWUP_QUESTION_REQUEST,
+  FOLLOWUP_QUESTION_FAIL,
+  FOLLOWUP_QUESTION_SUCCESS,
 } from "../constants/storyConstant";
 const BackendUrl = "http://localhost:8000/api";
 
@@ -67,6 +70,37 @@ export const getAudio = (storyId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: STORY_AUDIO_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//get followup question answer
+export const questionAnswer = (story, question) => async (dispatch) => {
+  try {
+    dispatch({ type: FOLLOWUP_QUESTION_REQUEST });
+    const request = {
+      question: question,
+      context: story,
+    };
+    const data = await fetch(BackendUrl + "/questions/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+    const blob = await data.blob();
+    const file = new File([blob], "audio.mp3", { type: "audio/mp3" });
+
+    dispatch({
+      type: FOLLOWUP_QUESTION_SUCCESS,
+      payload: file,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: FOLLOWUP_QUESTION_FAIL,
       payload: error.response.data.message,
     });
   }

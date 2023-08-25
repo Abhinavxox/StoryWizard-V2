@@ -6,9 +6,10 @@ import {
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { storiesReducer } from "./reducers/storyReducer";
+import { storiesReducer, questionReducer } from "./reducers/storyReducer";
 const reducer = combineReducers({
   stories: storiesReducer,
+  questions: questionReducer,
 });
 
 let initialState = {};

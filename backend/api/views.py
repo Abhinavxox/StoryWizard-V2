@@ -104,18 +104,24 @@ def story_audio(request, pk):
         else:
             return JsonResponse({'message': 'Audio file not found'}, status=status.HTTP_404_NOT_FOUND)
         
-@api_view(['GET'])
+@api_view(['POST'])
 def follow_up_question(request):
-    if request.method == 'GET':
-        question = request.data['question']
-        context = request.data['context']
-        response_from_openai = answer_question(question, context)
-        tts = gTTS(text=response_from_openai, lang='en')
+    if request.method == 'POST':
+        try:
+            question = request.data['question']
+            context = request.data['context']
+            response_from_openai = answer_question(question, context)
+            tts = gTTS(text=response_from_openai, lang='en')
 
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as temp_audio_file:
-            tts.save(temp_audio_file.name)
-        response = FileResponse(open(temp_audio_file.name, 'rb'), content_type='audio/mpeg')
-        response['Content-Disposition'] = 'attachment; filename="audio.mp3"'
-        os.remove(temp_audio_file.name)
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as temp_audio_file:
+                tts.save(temp_audio_file.name)
+            
+            response = FileResponse(open(temp_audio_file.name, 'rb'), content_type='audio/mpeg')
+            response['Content-Disposition'] = 'attachment; filename="audio.mp3"'
+            os.remove(temp_audio_file.name)
 
-        return response
+            return response
+        except KeyError as e:
+            return JsonResponse({'message': f'Missing key in request data: {e}'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)

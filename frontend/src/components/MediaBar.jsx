@@ -15,6 +15,9 @@ const MediaBar = () => {
 
   const dispatch = useDispatch();
   const { loading, error, audio } = useSelector((state) => state.stories);
+  const { loadingAnswer, errorAnswer, answer } = useSelector(
+    (state) => state.questions
+  );
 
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
