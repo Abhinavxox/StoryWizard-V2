@@ -1,20 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaPlay, FaPause, FaQuestion, FaTimes } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getAudio } from "../actions/storyActions";
 import { options } from "../alert/Alert";
 import { toast } from "react-toastify";
 
-const MediaBar = () => {
-  const dispatch = useDispatch();
-  const { loading, error, audio } = useSelector((state) => state.stories);
+import { useDispatch, useSelector } from "react-redux";
+import { getAudio } from "../actions/storyActions";
 
+const MediaBar = () => {
   const location = useLocation();
   const story = location.state;
 
+  const dispatch = useDispatch();
+  const { loading, error, audio } = useSelector((state) => state.stories);
+
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const audioRef = useRef();
 
   const handleHover = () => {
     setIsHovered((prev) => !prev);
@@ -27,50 +30,15 @@ const MediaBar = () => {
       }
       dispatch(getAudio(story.id));
     } else {
-      // console.log(audio);
+      audioRef.current.src = URL.createObjectURL(audio);
     }
   }, [dispatch, error, audio]);
 
   return (
     <>
-      {loading ? (
-        "Loading..."
-      ) : (
-        <div
-          className={`relative ${
-            isHovered ? "w-48 h-14" : "w-14 h-14"
-          } rounded-full cursor-pointer overflow-hidden transition-all`}
-          onMouseEnter={handleHover}
-          onMouseLeave={handleHover}
-        >
-          <div
-            className={`absolute top-0 left-0 w-full h-full flex justify-between items-center ${
-              isHovered ? "animate-expand-height" : "animate-shrink-height"
-            }`}
-          >
-            {isHovered ? (
-              <>
-                <button className="w-14 h-14 bg-base-300 text-white rounded-full">
-                  <div className="flex justify-center">
-                    {isPlaying ? <FaPause /> : <FaPlay />}
-                  </div>
-                </button>
-                <button className="w-14 h-14 bg-base-300 text-white rounded-full">
-                  <div className="flex justify-center">
-                    <FaQuestion />
-                  </div>
-                </button>
-              </>
-            ) : (
-              <button className="w-14 h-14 bg-base-300 text-white rounded-full">
-                <div className="flex justify-center">
-                  <FaTimes />
-                </div>
-              </button>
-            )}
-          </div>
-        </div>
-      )}
+      <div className="flex justify-center">
+        <audio ref={audioRef} controls />
+      </div>
     </>
   );
 };

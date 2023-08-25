@@ -56,13 +56,13 @@ export const getAudio = (storyId) => async (dispatch) => {
   try {
     dispatch({ type: STORY_AUDIO_REQUEST });
 
-    const { data } = await axios.get(
-      BackendUrl + "/stories/" + storyId + "/audio"
-    );
+    const data = await fetch(BackendUrl + "/stories/" + storyId + "/audio");
+    const blob = await data.blob();
+    const file = new File([blob], "audio.mp3", { type: "audio/mp3" });
 
     dispatch({
       type: STORY_AUDIO_SUCCESS,
-      payload: data,
+      payload: file,
     });
   } catch (error) {
     dispatch({
