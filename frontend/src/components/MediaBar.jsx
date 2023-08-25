@@ -47,7 +47,7 @@ const MediaBar = () => {
   return (
     <>
       {loading ? (
-        "Loading..."
+        "Loading.."
       ) : (
         <div
           className={`relative ${
