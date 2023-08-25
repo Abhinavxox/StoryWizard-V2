@@ -19,6 +19,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Story
+import tempfile
 
 
 @api_view(['GET', 'POST', 'DELETE'])    
@@ -109,4 +110,12 @@ def follow_up_question(request):
         question = request.data['question']
         context = request.data['context']
         response_from_openai = answer_question(question, context)
-        return JsonResponse(response_from_openai, safe=False)
+        tts = gTTS(text=response_from_openai, lang='en')
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as temp_audio_file:
+            tts.save(temp_audio_file.name)
+        response = FileResponse(open(temp_audio_file.name, 'rb'), content_type='audio/mpeg')
+        response['Content-Disposition'] = 'attachment; filename="audio.mp3"'
+        os.remove(temp_audio_file.name)
+
+        return response
