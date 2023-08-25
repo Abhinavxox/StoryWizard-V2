@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaPlay, FaPause, FaQuestion, FaTimes } from "react-icons/fa";
+import {
+  FaPlay,
+  FaPause,
+  FaQuestion,
+  FaTimes,
+  FaMicrophone,
+} from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { options } from "../alert/Alert";
 import { toast } from "react-toastify";
@@ -23,7 +29,8 @@ const MediaBar = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isQuestioning, setIsQuestioning] = useState(false);
 
-  const audioRef = useRef();
+  const audioRef = useRef(null);
+  const answerRef = useRef(null);
 
   const handleHover = () => {
     setIsHovered((prev) => !prev);
@@ -55,6 +62,17 @@ const MediaBar = () => {
     }
   }, [dispatch, error, audio]);
 
+  useEffect(() => {
+    if (loadingAnswer == false && !errorAnswer && answer) {
+      answerRef.current.src = URL.createObjectURL(answer);
+      answerRef.current.play();
+    } else {
+      if (errorAnswer) {
+        toast.error(errorAnswer, options);
+      }
+    }
+  }, [dispatch, errorAnswer, answer]);
+
   return (
     <>
       {loading ? (
@@ -63,6 +81,13 @@ const MediaBar = () => {
         <>
           {isQuestioning ? (
             <div className="mb-10 lg:mb-28">
+              {/* {isAnswering ? (
+                <div className="mb-36 lg:mb-24">
+                  <div className="rounded-full w-40 h-40 text-white bg-red-500 flex justify-center items-center animate-pulse">
+                    <FaMicrophone className="w-20 h-20" />
+                  </div>
+                </div>
+              ) : ( */}
               <div className="relative">
                 <QuestionBar />
                 <div
@@ -72,6 +97,7 @@ const MediaBar = () => {
                   <FaTimes />
                 </div>
               </div>
+              {/* )} */}
             </div>
           ) : (
             <div
@@ -118,6 +144,7 @@ const MediaBar = () => {
         </>
       )}
       <audio ref={audioRef} controls hidden />
+      <audio ref={answerRef} controls hidden />
     </>
   );
 };

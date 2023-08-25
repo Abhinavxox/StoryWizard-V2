@@ -81,7 +81,7 @@ export const storiesReducer = (state = { stories: [] }, action) => {
   }
 };
 
-export const questionReducer = (state = { answer: [] }, action) => {
+export const questionReducer = (state = {}, action) => {
   switch (action.type) {
     case FOLLOWUP_QUESTION_REQUEST:
       return {
