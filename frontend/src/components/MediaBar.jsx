@@ -16,40 +16,20 @@ const MediaBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const audioRef = useRef(null);
-
   const handleHover = () => {
     setIsHovered((prev) => !prev);
   };
 
   useEffect(() => {
-    if (error) {
-      toast.error(error, options);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    // Fetch audio when the component mounts or when story.id changes
-    if (story && story.id) {
+    if (!audio) {
+      if (error) {
+        toast.error(error, options);
+      }
       dispatch(getAudio(story.id));
-    }
-  }, [dispatch, story]);
-
-  useEffect(() => {
-    if (audio) {
-      // Set the audio source when audio data is available
-      audioRef.current.src = audio;
-    }
-  }, [audio]);
-
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      // console.log(audio);
     }
-    setIsPlaying((prev) => !prev);
-  };
+  }, [dispatch, error, audio]);
 
   return (
     <>
@@ -70,10 +50,7 @@ const MediaBar = () => {
           >
             {isHovered ? (
               <>
-                <button
-                  className="w-14 h-14 bg-base-300 text-white rounded-full"
-                  onClick={togglePlayPause}
-                >
+                <button className="w-14 h-14 bg-base-300 text-white rounded-full">
                   <div className="flex justify-center">
                     {isPlaying ? <FaPause /> : <FaPlay />}
                   </div>
@@ -92,9 +69,6 @@ const MediaBar = () => {
               </button>
             )}
           </div>
-
-          {/* Conditionally render the audio element */}
-          {audio && <audio ref={audioRef} src={audio} controls={true} hidden />}
         </div>
       )}
     </>
