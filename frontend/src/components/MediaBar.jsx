@@ -28,6 +28,7 @@ const MediaBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isQuestioning, setIsQuestioning] = useState(false);
+  const [isAnswering, setIsAnswering] = useState(false);
 
   const audioRef = useRef(null);
   const answerRef = useRef(null);
@@ -63,9 +64,23 @@ const MediaBar = () => {
   }, [dispatch, error, audio]);
 
   useEffect(() => {
-    if (loadingAnswer == false && !errorAnswer && answer) {
-      answerRef.current.src = URL.createObjectURL(answer);
-      answerRef.current.play();
+    if (loadingAnswer === false && !errorAnswer && answer) {
+      setIsAnswering(true);
+      const audio = answerRef.current;
+
+      const handleAudioEnd = () => {
+        setIsAnswering(false);
+        setIsAnswering(false);
+      };
+
+      audio.addEventListener("ended", handleAudioEnd);
+
+      audio.src = URL.createObjectURL(answer);
+      audio.play();
+
+      return () => {
+        audio.removeEventListener("ended", handleAudioEnd);
+      };
     } else {
       if (errorAnswer) {
         toast.error(errorAnswer, options);
@@ -81,23 +96,23 @@ const MediaBar = () => {
         <>
           {isQuestioning ? (
             <div className="mb-10 lg:mb-28">
-              {/* {isAnswering ? (
+              {isAnswering ? (
                 <div className="mb-36 lg:mb-24">
                   <div className="rounded-full w-40 h-40 text-white bg-red-500 flex justify-center items-center animate-pulse">
                     <FaMicrophone className="w-20 h-20" />
                   </div>
                 </div>
-              ) : ( */}
-              <div className="relative">
-                <QuestionBar />
-                <div
-                  className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-red-500 flex justify-center items-center cursor-pointer text-white"
-                  onClick={() => handleQuestion()}
-                >
-                  <FaTimes />
+              ) : (
+                <div className="relative">
+                  <QuestionBar />
+                  <div
+                    className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-red-500 flex justify-center items-center cursor-pointer text-white"
+                    onClick={() => handleQuestion()}
+                  >
+                    <FaTimes />
+                  </div>
                 </div>
-              </div>
-              {/* )} */}
+              )}
             </div>
           ) : (
             <div

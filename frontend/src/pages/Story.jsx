@@ -26,6 +26,7 @@ const Story = (props) => {
               className="object-cover object-center rounded"
               alt="hero"
               src={story.image}
+              draggable="false"
             />
           </div>
         </div>
