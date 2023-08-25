@@ -1,5 +1,7 @@
 # StoryWizard-V2
 
+[![Author](https://img.shields.io/badge/Author-Abhinavxox-brightgreen.svg)](https://github.com/Abhinavxox)  [![Contact](https://img.shields.io/badge/Contact-Linkedin-blue.svg)](https://www.linkedin.com/in/itsmeabhinavpandey/) 
+
 ### Introduction : 
 StoryWizard is a narrative story generator web application based on GPT-3 Turbo. As we all know, kids love stories. ,Still, it can be a challenging task for parents and teachers to keep up with their constant demand for new ones. Our project offers a solution by providing a vast library of pre-made stories on various topics and the ability to generate new stories based on children's interests.
 
@@ -13,3 +15,11 @@ It uses GPT-3 Turbo API to generate narrative stories and Google Cloud Text-to-S
 ![image](https://github.com/Abhinavxox/StoryWizard-V2/assets/72064600/c3da6185-d820-4b1f-8761-27e47c56e3bf)
 #### You can ask follow-up questions as well!
 ![image](https://github.com/Abhinavxox/StoryWizard-V2/assets/72064600/4e874d2f-143d-4bde-9702-e5eb5cdb0126)
+
+### Techstack used : 
+
+- ReactJS
+- Django
+- OpenAI
+- LeapAI
+  
