@@ -9,7 +9,7 @@ from api.models import Story
 from api.serializers import storySerializer
 from rest_framework.decorators import api_view
 
-from api.functions import generate_story
+from api.functions import generate_story, answer_question
 
 from gtts import gTTS
 from django.core.files.base import ContentFile
@@ -39,7 +39,6 @@ def story_list(request):
         if story_serializer.is_valid():
             story_serializer.save()
 
-            #generate mp3 file
             story = Story.objects.get(pk=story_serializer.data['id'])
 
             tts = gTTS(text=story.story, lang='en')
@@ -96,13 +95,18 @@ def story_audio(request, pk):
     story = get_object_or_404(Story, pk=pk)
 
     if request.method == 'GET':
-        # Construct the file path to the MP3 file
         audio_file_path = os.path.join(settings.MEDIA_ROOT, f'stories/audio/story_{story.pk}.mp3')
 
-        # Check if the file exists
         if os.path.exists(audio_file_path):
-            # Send the file as a response using FileResponse
             response = FileResponse(open(audio_file_path, 'rb'), content_type='audio/mp3')
             return response
         else:
             return JsonResponse({'message': 'Audio file not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+@api_view(['GET'])
+def follow_up_question(request):
+    if request.method == 'GET':
+        question = request.data['question']
+        context = request.data['context']
+        response_from_openai = answer_question(question, context)
+        return JsonResponse(response_from_openai, safe=False)

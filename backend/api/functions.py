@@ -125,3 +125,25 @@ def get_inference_job(inference_id):
 
     return inference_id, state, images
 
+def answer_question(question, context):
+    # Define the model you want to use
+    model = "gpt-3.5-turbo"
+
+    messages = [
+        {"role": "system", "content": "You are an assistant that answers the questions to the children's "\
+                 "story given below. You should answer the questions descriptively in a "\
+                 "way that a child can understand them. If the question asked is unrelated "\
+                 "to the story, do not answer the question and instead reply by asking the "\
+                 "user to ask questions related to the story."},
+        {"role": "user", "content": context},
+        {"role": "user", "content": question}
+    ]
+
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        max_tokens=50, 
+    )
+
+    assistant_reply = response.choices[0].message.content
+    return assistant_reply
