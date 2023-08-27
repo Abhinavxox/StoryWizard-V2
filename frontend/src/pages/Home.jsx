@@ -47,7 +47,7 @@ const Home = () => {
         <div className="min-h-[90vh] mx-auto flex justify-center items-center">
           <div>
             <h2 className="text-3xl uppercase text-center font-bold my-10">
-              Generating a New Content 🪄
+              Generating a New Story 🪄
             </h2>
             <PacmanLoader color={"white"} size={100} />
           </div>

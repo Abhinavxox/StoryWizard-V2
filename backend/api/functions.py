@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 leapai_api_key = os.getenv('LEAPAI_API_KEY')
-# openai.api_key = os.environ.get('OPENAI_API_KEY')
-# leapai_api_key = os.environ.get('LEAPAI_API_KEY')
 
 #headers for leapai api
 HEADERS = {
@@ -37,7 +35,7 @@ def generate_story(topic):
     res = content[content.find('\n'):]
     res = res.lstrip()
     prompt = generate_promt_for_stablediffusion(res)
-    image_url = generate_image(prompt)
+    image_url = generate_image(topic)
     output = {'title': title, 'story': res, 'image': image_url}
     return output
 
@@ -97,7 +95,7 @@ def generate_instance(prompt):
         print("Error: ", data)
         return None, None
     inference_id = data["id"]
-    status = data["status"]
+    status = data["state"]
 
     print(f"Generating Inference: {inference_id}. Status: {status}")
 
