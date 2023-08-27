@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="mx-auto h-[90vh]">
+      <div className="mx-auto h-full">
         <div className="grid grid-cols-1 lg:grid-cols-10">
           <div className="col-span-3 flex justify-center items-center h-[50vh] lg:h-[90vh]">
             <div className="w-full px-5">
@@ -40,7 +40,7 @@ const Home = () => {
               </h2>
               <input
                 type="text"
-                placeholder="Type here"
+                placeholder="Name any characters, Create !"
                 value={topic}
                 className="input input-bordered input-primary w-full h-40 text-xl my-5"
                 onChange={handleInputChange}

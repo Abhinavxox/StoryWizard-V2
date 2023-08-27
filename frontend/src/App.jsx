@@ -9,10 +9,12 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/story/:story" element={<Story />} />
-      </Routes>
+      <div className="max-h-[90vh]">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/story/:story" element={<Story />} />
+        </Routes>
+      </div>
     </div>
   );
 };
