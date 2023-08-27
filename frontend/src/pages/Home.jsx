@@ -77,7 +77,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="col-span-7 flex justify-center items-center h-[90vh]">
+            <div className="col-span-7 flex justify-center items-center h-[90vh] overflow-y-auto">
               <StoryLibrary />
             </div>
           </div>
