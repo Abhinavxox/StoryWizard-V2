@@ -48,8 +48,10 @@ const MediaBar = () => {
   };
 
   const handleQuestion = () => {
-    if (isPlaying) handlePlayPause();
-    setIsQuestioning((prev) => !prev);
+    if (!loadingAnswer) {
+      if (isPlaying) handlePlayPause();
+      setIsQuestioning((prev) => !prev);
+    }
   };
 
   useEffect(() => {
