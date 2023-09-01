@@ -9,6 +9,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
+      {/* body page starts here */}
       <div className="max-h-[90vh]">
         <Routes>
           <Route path="/" element={<Home />} />

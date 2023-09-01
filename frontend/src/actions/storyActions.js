@@ -59,6 +59,7 @@ export const getAudio = (storyId) => async (dispatch) => {
   try {
     dispatch({ type: STORY_AUDIO_REQUEST });
 
+    //create a file and then send to the reducer
     const data = await fetch(BackendUrl + "/stories/" + storyId + "/audio");
     const blob = await data.blob();
     const file = new File([blob], "audio.mp3", { type: "audio/mp3" });
@@ -90,6 +91,7 @@ export const questionAnswer = (story, question) => async (dispatch) => {
       },
       body: JSON.stringify(request),
     });
+    //create a file and then send to the reducer
     const blob = await data.blob();
     const file = new File([blob], "audio.mp3", { type: "audio/mp3" });
 

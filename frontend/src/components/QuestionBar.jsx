@@ -17,7 +17,7 @@ const QuestionBar = () => {
   const [question, setQuestion] = useState("");
   const [isAsking, setIsAsking] = useState(false);
 
-  const handleQuestion = async () => {
+  const handleQuestion = () => {
     if (question === "") {
       toast.error("Please enter a question", options);
       return;

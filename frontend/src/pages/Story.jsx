@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import MediaBar from "../components/MediaBar";
 
-const Story = (props) => {
+const Story = () => {
   const location = useLocation();
   const story = location.state;
   const paragraphs = story.story.split("\n");

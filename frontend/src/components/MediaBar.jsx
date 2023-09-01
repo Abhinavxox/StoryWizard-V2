@@ -14,12 +14,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAudio } from "../actions/storyActions";
 
 import QuestionBar from "./QuestionBar";
+import PuffLoader from "react-spinners/PuffLoader";
 
 const MediaBar = () => {
   const location = useLocation();
   const story = location.state;
 
   const dispatch = useDispatch();
+
+  //get states from redux store
   const { loading, error, audio } = useSelector((state) => state.stories);
   const { loadingAnswer, errorAnswer, answer } = useSelector(
     (state) => state.questions
@@ -30,13 +33,16 @@ const MediaBar = () => {
   const [isQuestioning, setIsQuestioning] = useState(false);
   const [isAnswering, setIsAnswering] = useState(false);
 
+  //audio refrenced objects for story and questions
   const audioRef = useRef(null);
   const answerRef = useRef(null);
 
+  //handle hover for media bar
   const handleHover = () => {
     setIsHovered((prev) => !prev);
   };
 
+  //handle play and pause for story
   const handlePlayPause = () => {
     if (audioRef.current.paused) {
       audioRef.current.play();
@@ -47,6 +53,7 @@ const MediaBar = () => {
     }
   };
 
+  //handle question
   const handleQuestion = () => {
     if (!loadingAnswer) {
       if (isPlaying) handlePlayPause();
@@ -54,6 +61,7 @@ const MediaBar = () => {
     }
   };
 
+  //useEffect to keep eye on audio state
   useEffect(() => {
     if (!audio) {
       if (error) {
@@ -65,14 +73,16 @@ const MediaBar = () => {
     }
   }, [dispatch, error, audio]);
 
+  //useEffect to keep eye on answer state
   useEffect(() => {
     if (loadingAnswer === false && !errorAnswer && answer) {
       setIsAnswering(true);
       const audio = answerRef.current;
 
+      //handle end of answers
       const handleAudioEnd = () => {
         setIsAnswering(false);
-        setIsAnswering(false);
+        answerRef.current = null;
       };
 
       audio.addEventListener("ended", handleAudioEnd);
@@ -93,7 +103,9 @@ const MediaBar = () => {
   return (
     <>
       {loading ? (
-        "Loading.."
+        <>
+          <PuffLoader color={"white"} size={50} />
+        </>
       ) : (
         <>
           {isQuestioning ? (

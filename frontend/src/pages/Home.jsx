@@ -23,6 +23,7 @@ const Home = () => {
     setTopic(event.target.value);
   };
 
+  //dispatch action to generate new story
   const generate = () => {
     if (topic === "") {
       toast.error("Please enter a topic", options);
@@ -36,7 +37,9 @@ const Home = () => {
   };
 
   useEffect(() => {
+    //after generating new story, navigate to story page
     if (loading == false && !error && story) {
+      toast.success("Story generated successfully", options);
       navigate(`/story/${story.title}`, { state: story });
     }
   }, [loading]);
@@ -55,6 +58,7 @@ const Home = () => {
       ) : (
         <div className="mx-auto h-full">
           <div className="grid grid-cols-1 lg:grid-cols-10">
+            {/* left column */}
             <div className="col-span-3 flex justify-center items-center h-[50vh] lg:h-[90vh]">
               <div className="w-full px-5">
                 <h2 className="text-3xl uppercase my-5 text-center font-bold">
@@ -77,6 +81,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
+            {/* right column */}
             <div className="col-span-7 flex justify-center items-center h-[90vh] overflow-y-auto">
               <StoryLibrary />
             </div>
